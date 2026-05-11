@@ -1,0 +1,66 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "minLength": 1,
+      "title": "Action",
+      "type": "string"
+    },
+    "dependencies": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Dependencies",
+      "type": "array"
+    },
+    "outputs": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Outputs",
+      "type": "array"
+    },
+    "owner": {
+      "minLength": 1,
+      "title": "Owner",
+      "type": "string"
+    },
+    "reason": {
+      "minLength": 1,
+      "title": "Reason",
+      "type": "string"
+    },
+    "stage": {
+      "enum": [
+        "ceo",
+        "builder",
+        "scanner",
+        "reporter",
+        "devops"
+      ],
+      "title": "Stage",
+      "type": "string"
+    },
+    "status": {
+      "enum": [
+        "pending",
+        "active",
+        "complete",
+        "blocked"
+      ],
+      "title": "Status",
+      "type": "string"
+    }
+  },
+  "required": [
+    "stage",
+    "owner",
+    "action",
+    "status",
+    "reason"
+  ],
+  "title": "IssueFlowStepModel",
+  "type": "object"
+}

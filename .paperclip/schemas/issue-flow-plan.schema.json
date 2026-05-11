@@ -1,0 +1,151 @@
+{
+  "$defs": {
+    "IssueFlowStepModel": {
+      "additionalProperties": false,
+      "properties": {
+        "action": {
+          "minLength": 1,
+          "title": "Action",
+          "type": "string"
+        },
+        "dependencies": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Dependencies",
+          "type": "array"
+        },
+        "outputs": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "title": "Outputs",
+          "type": "array"
+        },
+        "owner": {
+          "minLength": 1,
+          "title": "Owner",
+          "type": "string"
+        },
+        "reason": {
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "stage": {
+          "enum": [
+            "ceo",
+            "builder",
+            "scanner",
+            "reporter",
+            "devops"
+          ],
+          "title": "Stage",
+          "type": "string"
+        },
+        "status": {
+          "enum": [
+            "pending",
+            "active",
+            "complete",
+            "blocked"
+          ],
+          "title": "Status",
+          "type": "string"
+        }
+      },
+      "required": [
+        "stage",
+        "owner",
+        "action",
+        "status",
+        "reason"
+      ],
+      "title": "IssueFlowStepModel",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "issue_id": {
+      "minLength": 1,
+      "title": "Issue Id",
+      "type": "string"
+    },
+    "issue_status": {
+      "enum": [
+        "todo",
+        "in_progress",
+        "blocked",
+        "done"
+      ],
+      "title": "Issue Status",
+      "type": "string"
+    },
+    "next_action": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Next Action"
+    },
+    "next_owner": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Next Owner"
+    },
+    "next_stage": {
+      "anyOf": [
+        {
+          "enum": [
+            "ceo",
+            "builder",
+            "scanner",
+            "reporter",
+            "devops"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Next Stage"
+    },
+    "steps": {
+      "items": {
+        "$ref": "#/$defs/IssueFlowStepModel"
+      },
+      "title": "Steps",
+      "type": "array"
+    },
+    "summary": {
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    }
+  },
+  "required": [
+    "issue_id",
+    "issue_status",
+    "summary",
+    "steps"
+  ],
+  "title": "IssueFlowPlanModel",
+  "type": "object"
+}

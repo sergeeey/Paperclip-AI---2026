@@ -12,6 +12,8 @@
     "allowed_tools": {
       "default": [
         "workflow_run_issue_gates",
+        "workflow_plan_issue_flow",
+        "workflow_sync_issue_state",
         "workflow_verify_artifacts",
         "workflow_verify_security",
         "workflow_export_schemas"
