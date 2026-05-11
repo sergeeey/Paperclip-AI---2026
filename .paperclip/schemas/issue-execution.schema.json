@@ -1,0 +1,142 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "block_trufflehog_unknown": {
+      "default": true,
+      "title": "Block Trufflehog Unknown",
+      "type": "boolean"
+    },
+    "event_log": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Event Log"
+    },
+    "last_event_log": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Event Log"
+    },
+    "last_run_reason": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Run Reason"
+    },
+    "last_run_status": {
+      "anyOf": [
+        {
+          "enum": [
+            "pass",
+            "fail",
+            "blocked"
+          ],
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Last Run Status"
+    },
+    "min_coverage": {
+      "default": 80.0,
+      "maximum": 100.0,
+      "minimum": 0.0,
+      "title": "Min Coverage",
+      "type": "number"
+    },
+    "min_tests": {
+      "default": 15,
+      "minimum": 0,
+      "title": "Min Tests",
+      "type": "integer"
+    },
+    "run_semgrep": {
+      "default": false,
+      "title": "Run Semgrep",
+      "type": "boolean"
+    },
+    "run_trufflehog": {
+      "default": false,
+      "title": "Run Trufflehog",
+      "type": "boolean"
+    },
+    "scan_output_dir": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Scan Output Dir"
+    },
+    "semgrep_block_levels": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Semgrep Block Levels",
+      "type": "array"
+    },
+    "semgrep_config": {
+      "default": "auto",
+      "title": "Semgrep Config",
+      "type": "string"
+    },
+    "semgrep_sarif": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Semgrep Sarif"
+    },
+    "timeout_seconds": {
+      "default": 120,
+      "minimum": 1,
+      "title": "Timeout Seconds",
+      "type": "integer"
+    },
+    "trufflehog_json": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Trufflehog Json"
+    }
+  },
+  "title": "IssueExecutionModel",
+  "type": "object"
+}

@@ -1,0 +1,44 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "allowed_roots": {
+      "items": {
+        "format": "path",
+        "type": "string"
+      },
+      "title": "Allowed Roots",
+      "type": "array"
+    },
+    "allowed_tools": {
+      "default": [
+        "workflow_run_issue_gates",
+        "workflow_verify_artifacts",
+        "workflow_verify_security",
+        "workflow_export_schemas"
+      ],
+      "items": {
+        "type": "string"
+      },
+      "title": "Allowed Tools",
+      "type": "array"
+    },
+    "blocked_tools": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Blocked Tools",
+      "type": "array"
+    },
+    "require_approval_tools": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Require Approval Tools",
+      "type": "array"
+    }
+  },
+  "title": "ToolPolicy",
+  "type": "object"
+}

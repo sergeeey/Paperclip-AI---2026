@@ -1,0 +1,17 @@
+{
+  "issue_id": "FIX-2",
+  "title": "FIX-2: Vulnerable issue fixture",
+  "goal": "Validate the issue-driven runner on a vulnerable project.",
+  "requirements": ["Pass artifact gate", "Fail security gate"],
+  "tech_stack": {"Language": "Python 3.11+"},
+  "output_location": "../vulnerable-project",
+  "acceptance_criteria": ["Artifact gate passes", "Security gate fails"],
+  "required_artifacts": ["test-results.json", "coverage.xml", "README.md"],
+  "assigned_to": "Builder Bot",
+  "status": "todo",
+  "priority": "P1",
+  "execution": {
+    "semgrep_sarif": "../vulnerable-project/semgrep.sarif",
+    "trufflehog_json": "../vulnerable-project/trufflehog.jsonl"
+  }
+}

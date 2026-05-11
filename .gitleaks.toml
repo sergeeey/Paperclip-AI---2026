@@ -1,0 +1,15 @@
+# Gitleaks: https://github.com/gitleaks/gitleaks
+# Run: gitleaks detect --source . --verbose
+
+title = "BlindSpotSec Paperclip repo"
+
+[extend]
+# useDefault adds many built-in rules
+useDefault = true
+
+[allowlist]
+description = "Allow example placeholders in docs"
+paths = [
+  '''API_KEYS_REFERENCE\.md''',
+  '''docs/SECURITY_ROTATION_CHECKLIST\.md''',
+]

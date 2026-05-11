@@ -1,0 +1,42 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "action": {
+      "enum": [
+        "allow",
+        "block",
+        "require_approval"
+      ],
+      "title": "Action",
+      "type": "string"
+    },
+    "checked_paths": {
+      "default": [],
+      "items": {
+        "type": "string"
+      },
+      "title": "Checked Paths",
+      "type": "array"
+    },
+    "matched_rule": {
+      "title": "Matched Rule",
+      "type": "string"
+    },
+    "reason": {
+      "title": "Reason",
+      "type": "string"
+    },
+    "tool_name": {
+      "title": "Tool Name",
+      "type": "string"
+    }
+  },
+  "required": [
+    "tool_name",
+    "action",
+    "reason",
+    "matched_rule"
+  ],
+  "title": "PolicyDecision",
+  "type": "object"
+}

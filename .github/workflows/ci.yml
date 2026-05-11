@@ -1,0 +1,93 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  shellcheck:
+    name: ShellCheck (HaluGate hooks)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install ShellCheck
+        run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - name: Run ShellCheck
+        run: shellcheck --severity=warning .paperclip/hooks/*.sh
+
+  gitleaks:
+    name: Gitleaks
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  workflow-controller:
+    name: Workflow Controller
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install workflow-controller
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e tools/workflow-controller
+      - name: Run unit tests
+        run: python -m unittest discover -s tools/workflow-controller/tests
+      - name: Compile package
+        run: python -m compileall tools/workflow-controller/workflow_controller
+      - name: Export JSON Schemas
+        run: python -m workflow_controller.cli export-schemas --output-dir "$RUNNER_TEMP/paperclip-schemas" --json
+      - name: Run clean fixture issue gates
+        run: |
+          python -m workflow_controller.cli run-issue-gates FIX-1 \
+            --project-dir tools/workflow-controller/tests/fixtures/clean-project \
+            --semgrep-sarif tools/workflow-controller/tests/fixtures/clean-project/semgrep.sarif \
+            --trufflehog-json tools/workflow-controller/tests/fixtures/clean-project/trufflehog.jsonl \
+            --event-log "$RUNNER_TEMP/clean-events.jsonl" \
+            --json
+      - name: Verify clean fixture event log
+        run: python -m workflow_controller.cli verify-event-log --event-log "$RUNNER_TEMP/clean-events.jsonl" --expected-issue-id FIX-1 --json
+      - name: Sync clean fixture issue state
+        run: |
+          python -m workflow_controller.cli sync-issue-state \
+            --issue-file tools/workflow-controller/tests/fixtures/issues/clean-issue.json \
+            --output-file "$RUNNER_TEMP/synced-clean-issue.json" \
+            --event-log "$RUNNER_TEMP/synced-clean-events.jsonl" \
+            --json
+          python -c "import json, pathlib, os; p = pathlib.Path(os.environ['RUNNER_TEMP']) / 'synced-clean-issue.json'; assert json.loads(p.read_text(encoding='utf-8'))['status'] == 'done'"
+      - name: Plan clean fixture issue flow
+        run: python -m workflow_controller.cli plan-issue-flow --issue-file tools/workflow-controller/tests/fixtures/issues/clean-issue.json --json
+      - name: Run expected failing fixture issue gates
+        run: |
+          set +e
+          python -m workflow_controller.cli run-issue-gates FIX-2 \
+            --project-dir tools/workflow-controller/tests/fixtures/vulnerable-project \
+            --semgrep-sarif tools/workflow-controller/tests/fixtures/vulnerable-project/semgrep.sarif \
+            --trufflehog-json tools/workflow-controller/tests/fixtures/vulnerable-project/trufflehog.jsonl \
+            --json
+          status=$?
+          set -e
+          test "$status" -eq 2
+      - name: Run expected blocked fixture issue gates
+        run: |
+          set +e
+          python -m workflow_controller.cli run-issue-gates FIX-3 \
+            --project-dir tools/workflow-controller/tests/fixtures/missing-artifacts-project \
+            --semgrep-sarif tools/workflow-controller/tests/fixtures/missing-artifacts-project/semgrep.sarif \
+            --trufflehog-json tools/workflow-controller/tests/fixtures/missing-artifacts-project/trufflehog.jsonl \
+            --json
+          status=$?
+          set -e
+          test "$status" -eq 3

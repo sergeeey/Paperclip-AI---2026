@@ -1,0 +1,17 @@
+{
+  "issue_id": "FIX-3",
+  "title": "FIX-3: Missing artifacts issue fixture",
+  "goal": "Validate the issue-driven runner when artifacts are missing.",
+  "requirements": ["Block on missing artifacts"],
+  "tech_stack": {"Language": "Python 3.11+"},
+  "output_location": "../missing-artifacts-project",
+  "acceptance_criteria": ["Artifact gate blocks"],
+  "required_artifacts": ["test-results.json", "coverage.xml", "README.md"],
+  "assigned_to": "Builder Bot",
+  "status": "todo",
+  "priority": "P1",
+  "execution": {
+    "semgrep_sarif": "../missing-artifacts-project/semgrep.sarif",
+    "trufflehog_json": "../missing-artifacts-project/trufflehog.jsonl"
+  }
+}

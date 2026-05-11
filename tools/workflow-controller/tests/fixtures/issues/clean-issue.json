@@ -1,0 +1,18 @@
+{
+  "issue_id": "FIX-1",
+  "title": "FIX-1: Clean issue fixture",
+  "goal": "Validate the issue-driven runner on a clean project.",
+  "requirements": ["Pass artifact gate", "Pass security gate"],
+  "tech_stack": {"Language": "Python 3.11+"},
+  "output_location": "../clean-project",
+  "acceptance_criteria": ["Artifact gate passes", "Security gate passes"],
+  "required_artifacts": ["test-results.json", "coverage.xml", "README.md"],
+  "assigned_to": "Builder Bot",
+  "status": "todo",
+  "priority": "P1",
+  "execution": {
+    "semgrep_sarif": "../clean-project/semgrep.sarif",
+    "trufflehog_json": "../clean-project/trufflehog.jsonl",
+    "event_log": "../clean-project/events.jsonl"
+  }
+}

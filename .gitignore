@@ -1,0 +1,31 @@
+# Secrets and local env (never commit)
+.env
+.env.*
+!.env.example
+*.pem
+*_SECRET*
+*_SECRETS*
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.swp
+.idea/
+.vscode/
+.claude/settings.local.json
+*.egg-info/
+
+# Playwright MCP snapshots (session noise, may contain sensitive page state)
+.playwright-mcp/
+.paperclip/
+!/.paperclip/
+tools/workflow-controller/.paperclip/
+
+# Logs
+*.log
+/tmp/
+.paperclip/bin/
+
+# Python generated files
+__pycache__/
+*.py[cod]
